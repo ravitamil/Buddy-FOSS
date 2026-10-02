@@ -1,0 +1,39 @@
+packages:
+  - .
+  - packages/*
+  - modules/*
+
+nodeLinker: hoisted
+packageImportMethod: copy
+autoInstallPeers: true
+strictPeerDependencies: false
+ignoreWorkspaceRootCheck: true
+
+overrides:
+  tamagui: 2.7.7
+  '@tamagui/core': 2.7.7
+  '@tamagui/web': 2.7.7
+  '@expo/metro-runtime': 57.0.15
+  '@expo/dom-webview': 57.0.1
+
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - expo-dev-client@57.0.18
+  - expo-dev-launcher@57.0.19
+  - expo-dev-menu@57.0.18
+  - expo-updates@57.0.21
+  - '@expo/cli@57.0.22'
+  - expo-modules-core@57.0.16
+  - expo-modules-jsi@57.0.8
+  - expo@57.0.20
+  - '@expo/ui@57.0.16'
+  - '@expo/metro-runtime@57.0.15'
+  - '@expo/dom-webview@57.0.1'
+  - expo-background-task@57.0.16
+  - expo-build-properties@57.0.17
+  - expo-image-picker@57.0.16
+  - expo-notifications@57.0.17
+  - expo-router@57.0.19
+  - expo-task-manager@57.0.16

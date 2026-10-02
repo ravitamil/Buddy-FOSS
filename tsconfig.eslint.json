@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  },
+  "include": [
+    ".eslintrc.context-migration.js",
+    "app.config.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "eslint.config.js",
+    "eslint-rules/**/*.js",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "scripts/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/types/**/*.d.ts",
+    "tamagui-types.d.ts",
+    "tamagui.build.ts"
+  ],
+  "exclude": ["node_modules", ".storybook", "supabase", "tests"]
+}

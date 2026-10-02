@@ -1,0 +1,57 @@
+{
+  "rules": {
+    "maxFileSize": "1MB",
+    "maxBundleSize": "50MB",
+    "minTestCoverage": 70,
+    "maxLintErrors": 0,
+    "maxLintWarnings": 10,
+    "maxTypeErrors": 0,
+    "allowedConsoleStatements": false,
+    "requireCommitMessageFormat": true,
+    "maxCommitMessageLength": 72
+  },
+  "excludePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    "coverage/**",
+    "*.min.js",
+    "*.bundle.js",
+    "assets/**/*.png",
+    "assets/**/*.jpg",
+    "assets/**/*.jpeg",
+    "assets/**/*.gif",
+    "assets/**/*.svg"
+  ],
+  "commitMessageFormat": {
+    "pattern": "^(feat|fix|docs|style|refactor|perf|test|chore|build|ci)(\\(.+\\))?: .{1,50}",
+    "types": ["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore", "build", "ci"],
+    "examples": [
+      "feat(auth): add Google sign-in functionality",
+      "fix(ui): resolve keyboard dismissal issue",
+      "docs(readme): update installation instructions",
+      "style(components): format code with prettier",
+      "refactor(context): simplify state management",
+      "perf(lists): optimize FlashList rendering",
+      "test(auth): add unit tests for login flow",
+      "chore(deps): update dependencies",
+      "build(webpack): optimize bundle configuration",
+      "ci(github): add automated testing workflow"
+    ]
+  },
+  "performance": {
+    "bundleSizeThresholds": {
+      "warning": "40MB",
+      "error": "50MB"
+    },
+    "testTimeout": 30000,
+    "lintTimeout": 60000,
+    "typeCheckTimeout": 120000
+  },
+  "notifications": {
+    "onSuccess": true,
+    "onWarning": true,
+    "onError": true,
+    "showProgress": true
+  }
+}

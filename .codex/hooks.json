@@ -1,0 +1,19 @@
+{
+  "description": "Create a tracked checkpoint summary, commit all changes, and push when the main Codex session ends.",
+  "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "other",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File F:\\prj\\BuddyIO\\.codex\\hooks\\session_end_push.ps1",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File F:\\prj\\BuddyIO\\.codex\\hooks\\session_end_push.ps1",
+            "timeout": 3,
+            "statusMessage": "Queuing BuddyIO session checkpoint and push"
+          }
+        ]
+      }
+    ]
+  }
+}

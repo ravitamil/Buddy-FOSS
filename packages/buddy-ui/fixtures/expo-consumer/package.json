@@ -1,0 +1,12 @@
+{
+  "name": "buddy-ui-expo-consumer-smoke",
+  "version": "0.0.0",
+  "private": true,
+  "main": "App.tsx",
+  "dependencies": {
+    "@ravitamil/buddy-ui": "file:../../buddy-ui-package.tgz",
+    "react": "19.2.3",
+    "react-native": "0.86.0",
+    "tamagui": "^1.141.0"
+  }
+}

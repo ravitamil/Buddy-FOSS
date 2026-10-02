@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://buddyio.local/schemas/feature-controls.schema.json",
+  "title": "BuddyIO feature controls",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "environment": {
+      "type": "string",
+      "default": "production"
+    },
+    "platform": {
+      "$ref": "#/$defs/platform",
+      "default": "all"
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/control"
+      }
+    }
+  },
+  "required": ["controls"],
+  "$defs": {
+    "platform": {
+      "type": "string",
+      "enum": ["all", "android", "ios"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["enabled", "hidden", "read_only", "maintenance", "disabled"]
+    },
+    "feature": {
+      "type": "string",
+      "enum": [
+        "analytics",
+        "auth",
+        "backupSync",
+        "budgets",
+        "categories",
+        "emailAuth",
+        "groups",
+        "home",
+        "investments",
+        "loans",
+        "membership",
+        "notifications",
+        "onboarding",
+        "privacy",
+        "phoneAuth",
+        "savings",
+        "settings",
+        "support",
+        "subscriptions",
+        "trackers",
+        "transactions",
+        "wallets"
+      ]
+    },
+    "actionStatusMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "analytics.view": {"$ref": "#/$defs/status"},
+        "auth.anonymousSignIn": {"$ref": "#/$defs/status"},
+        "auth.emailSignIn": {"$ref": "#/$defs/status"},
+        "auth.googleSignIn": {"$ref": "#/$defs/status"},
+        "auth.phoneSignIn": {"$ref": "#/$defs/status"},
+        "auth.resendEmailOtp": {"$ref": "#/$defs/status"},
+        "auth.resendPhoneOtp": {"$ref": "#/$defs/status"},
+        "auth.signOut": {"$ref": "#/$defs/status"},
+        "auth.verifyEmailOtp": {"$ref": "#/$defs/status"},
+        "auth.verifyPhoneOtp": {"$ref": "#/$defs/status"},
+        "backupSync.run": {"$ref": "#/$defs/status"},
+        "budgets.create": {"$ref": "#/$defs/status"},
+        "budgets.delete": {"$ref": "#/$defs/status"},
+        "budgets.update": {"$ref": "#/$defs/status"},
+        "categories.create": {"$ref": "#/$defs/status"},
+        "categories.delete": {"$ref": "#/$defs/status"},
+        "categories.update": {"$ref": "#/$defs/status"},
+        "groups.acceptInvite": {"$ref": "#/$defs/status"},
+        "groups.addExpense": {"$ref": "#/$defs/status"},
+        "groups.addMember": {"$ref": "#/$defs/status"},
+        "groups.create": {"$ref": "#/$defs/status"},
+        "groups.delete": {"$ref": "#/$defs/status"},
+        "groups.deleteExpense": {"$ref": "#/$defs/status"},
+        "groups.invite": {"$ref": "#/$defs/status"},
+        "groups.recalculateDebt": {"$ref": "#/$defs/status"},
+        "groups.removeMember": {"$ref": "#/$defs/status"},
+        "groups.settle": {"$ref": "#/$defs/status"},
+        "groups.update": {"$ref": "#/$defs/status"},
+        "groups.updateExpense": {"$ref": "#/$defs/status"},
+        "investments.create": {"$ref": "#/$defs/status"},
+        "investments.delete": {"$ref": "#/$defs/status"},
+        "investments.deleteCategory": {"$ref": "#/$defs/status"},
+        "investments.research": {"$ref": "#/$defs/status"},
+        "investments.saveCategory": {"$ref": "#/$defs/status"},
+        "investments.savePortfolio": {"$ref": "#/$defs/status"},
+        "investments.update": {"$ref": "#/$defs/status"},
+        "loans.autoRecordPayment": {"$ref": "#/$defs/status"},
+        "loans.create": {"$ref": "#/$defs/status"},
+        "loans.recordPayment": {"$ref": "#/$defs/status"},
+        "loans.update": {"$ref": "#/$defs/status"},
+        "membership.customerCenter": {"$ref": "#/$defs/status"},
+        "membership.purchase": {"$ref": "#/$defs/status"},
+        "membership.restore": {"$ref": "#/$defs/status"},
+        "notifications.budgetAlerts": {"$ref": "#/$defs/status"},
+        "notifications.groupAlerts": {"$ref": "#/$defs/status"},
+        "notifications.initialize": {"$ref": "#/$defs/status"},
+        "notifications.schedulePaymentReminders": {"$ref": "#/$defs/status"},
+        "notifications.sendPaymentSuccess": {"$ref": "#/$defs/status"},
+        "notifications.updatePreferences": {"$ref": "#/$defs/status"},
+        "onboarding.createProfile": {"$ref": "#/$defs/status"},
+        "privacy.update": {"$ref": "#/$defs/status"},
+        "savings.create": {"$ref": "#/$defs/status"},
+        "savings.createRetirementPlan": {"$ref": "#/$defs/status"},
+        "savings.delete": {"$ref": "#/$defs/status"},
+        "savings.update": {"$ref": "#/$defs/status"},
+        "settings.update": {"$ref": "#/$defs/status"},
+        "settings.updateCurrency": {"$ref": "#/$defs/status"},
+        "subscriptions.autoGenerate": {"$ref": "#/$defs/status"},
+        "subscriptions.create": {"$ref": "#/$defs/status"},
+        "subscriptions.delete": {"$ref": "#/$defs/status"},
+        "subscriptions.recordPayment": {"$ref": "#/$defs/status"},
+        "subscriptions.update": {"$ref": "#/$defs/status"},
+        "transactions.create": {"$ref": "#/$defs/status"},
+        "transactions.delete": {"$ref": "#/$defs/status"},
+        "transactions.update": {"$ref": "#/$defs/status"},
+        "wallets.create": {"$ref": "#/$defs/status"},
+        "wallets.delete": {"$ref": "#/$defs/status"},
+        "wallets.update": {"$ref": "#/$defs/status"}
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "feature": {
+          "$ref": "#/$defs/feature"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/$defs/platform"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "message": {
+          "type": ["string", "null"]
+        },
+        "actions": {
+          "$ref": "#/$defs/actionStatusMap",
+          "default": {}
+        }
+      },
+      "required": ["feature", "status"]
+    }
+  }
+}

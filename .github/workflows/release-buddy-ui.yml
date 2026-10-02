@@ -1,0 +1,40 @@
+name: Release Buddy UI
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - buddy-ui-v*
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  verify-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.8.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: '@ravitamil'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit:components:check
+      - run: pnpm buddy-ui:check
+      - name: Smoke-test the packed package in an Expo consumer
+        working-directory: packages/buddy-ui
+        run: |
+          PACKAGE_TARBALL=$(npm pack --silent)
+          mv "$PACKAGE_TARBALL" buddy-ui-package.tgz
+          npm install --prefix fixtures/expo-consumer --ignore-scripts --legacy-peer-deps
+          pnpm exec tsc -p fixtures/expo-consumer/tsconfig.json --noEmit
+      - name: Publish private package
+        run: pnpm --filter @ravitamil/buddy-ui publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,43 @@
+{
+  "$schema": "../docs/feature-controls.schema.json",
+  "environment": "production",
+  "platform": "all",
+  "controls": [
+    {
+      "feature": "phoneAuth",
+      "status": "disabled",
+      "message": "Phone login is unavailable. Use Email, Google, or Anonymous login.",
+      "actions": {}
+    },
+    {
+      "feature": "emailAuth",
+      "status": "enabled",
+      "message": null,
+      "actions": {}
+    },
+    {
+      "feature": "groups",
+      "status": "enabled",
+      "message": null,
+      "actions": {
+        "groups.create": "disabled",
+        "groups.delete": "disabled"
+      }
+    },
+    {
+      "feature": "transactions",
+      "platform": "android",
+      "status": "read_only",
+      "message": "Transaction editing is temporarily paused.",
+      "actions": {}
+    },
+    {
+      "feature": "subscriptions",
+      "status": "enabled",
+      "message": null,
+      "actions": {
+        "subscriptions.autoGenerate": "disabled"
+      }
+    }
+  ]
+}

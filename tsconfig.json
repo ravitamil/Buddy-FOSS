@@ -1,0 +1,50 @@
+{
+  "extends": "./node_modules/expo/tsconfig.base.json",
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@/*": ["src/*"],
+      "@ravitamil/buddy-ui": ["packages/buddy-ui/src/index.ts"],
+      "@ravitamil/buddy-ui/*": ["packages/buddy-ui/src/*"],
+      "expo-google-credential-manager": ["modules/expo-google-credential-manager/src/index.ts"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "target": "es2017"
+  },
+  "include": [
+    "app/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "packages/buddy-ui/src/**/*.ts",
+    "packages/buddy-ui/src/**/*.tsx",
+    "modules/**/*.ts",
+    "modules/**/*.tsx",
+    "src/types/**/*.d.ts",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "tamagui-types.d.ts",
+    "tamagui.build.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/__tests__",
+    "**/*.test.*",
+    "**/*.stories.*",
+    ".storybook",
+    "__mocks__",
+    "src/test-setup.ts",
+    "src/utils/context-test-setup.ts",
+    "scripts",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "supabase"
+  ]
+}

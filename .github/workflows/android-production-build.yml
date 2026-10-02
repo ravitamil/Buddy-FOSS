@@ -1,0 +1,97 @@
+name: Android production build
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - closed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-production-build-develop
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Signed Android App Bundle
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'alternate-develop')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      BUDDY_RELEASE_STORE_PASSWORD: ${{ secrets.BUDDY_RELEASE_STORE_PASSWORD }}
+      BUDDY_RELEASE_KEY_ALIAS: ${{ secrets.BUDDY_RELEASE_KEY_ALIAS }}
+      BUDDY_RELEASE_KEY_PASSWORD: ${{ secrets.BUDDY_RELEASE_KEY_PASSWORD }}
+      EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: ${{ secrets.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID }}
+      EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: ${{ secrets.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID }}
+      EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID: ${{ secrets.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID }}
+      EXPO_PUBLIC_FIREBASE_API_KEY: ${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
+      EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+      EXPO_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }}
+      EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+      EXPO_PUBLIC_FIREBASE_APP_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
+      EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+      EXPO_PUBLIC_FIREBASE_DATABASE_URL: ${{ secrets.EXPO_PUBLIC_FIREBASE_DATABASE_URL }}
+      EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+      EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+
+    steps:
+      - name: Check out the merged develop commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore private Android files
+        env:
+          BUDDY_RELEASE_KEYSTORE_BASE64: ${{ secrets.BUDDY_RELEASE_KEYSTORE_BASE64 }}
+          BUDDY_GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.BUDDY_GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          test -n "$BUDDY_RELEASE_KEYSTORE_BASE64"
+          echo "$BUDDY_RELEASE_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/buddy-release.jks"
+          test -n "$BUDDY_GOOGLE_SERVICES_JSON_BASE64"
+          echo "$BUDDY_GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > android/app/google-services.json
+
+      - name: Build signed production bundle
+        working-directory: android
+        env:
+          BUDDY_RELEASE_STORE_FILE: ${{ runner.temp }}/buddy-release.jks
+        run: |
+          chmod +x gradlew
+          ./gradlew bundleRelease \
+            -PBUDDY_RELEASE_STORE_FILE="$BUDDY_RELEASE_STORE_FILE" \
+            -PBUDDY_RELEASE_STORE_PASSWORD="$BUDDY_RELEASE_STORE_PASSWORD" \
+            -PBUDDY_RELEASE_KEY_ALIAS="$BUDDY_RELEASE_KEY_ALIAS" \
+            -PBUDDY_RELEASE_KEY_PASSWORD="$BUDDY_RELEASE_KEY_PASSWORD" \
+            --no-daemon
+
+      - name: Upload signed Android App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: buddy-production-${{ github.run_number }}
+          path: android/app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 30

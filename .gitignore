@@ -1,0 +1,77 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+packages/buddy-ui/lib/
+packages/buddy-ui/*.tgz
+packages/buddy-ui/fixtures/**/package-lock.json
+modules/**/build/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# generated local artifacts
+artifacts/
+.tamagui/
+coverage/
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+# Keep the native Android project in source control so GitHub Actions can make
+# reproducible Gradle builds.  Android's own .gitignore excludes local SDK
+# settings and generated build output.
+/ios/
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+firebase-debug.log
+
+# temporary scratch files
+tmp/
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env
+.env*.local
+credentials.json
+google-services.json
+
+# typescript
+*.tsbuildinfo
+
+# local tools
+.mcp.json
+.kilo/
+.codex/
+!.codex/
+.codex/*
+!.codex/hooks.json
+!.codex/hooks/
+!.codex/hooks/*.ps1
+.claude/settings.local.json
+.agents/rules/claude-mem-context.md
+
+# Added by code-review-graph
+.code-review-graph/
+# Local agent/runtime state
+.mimocode/
+
+# Local Supabase CLI project linkage
+supabase/.temp/

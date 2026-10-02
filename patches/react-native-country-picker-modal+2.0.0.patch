@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-country-picker-modal/lib/CountryModal.js b/node_modules/react-native-country-picker-modal/lib/CountryModal.js
+index 1678e95..f4376cc 100644
+--- a/node_modules/react-native-country-picker-modal/lib/CountryModal.js
++++ b/node_modules/react-native-country-picker-modal/lib/CountryModal.js
+@@ -1,5 +1,6 @@
+ import * as React from 'react';
+-import { SafeAreaView, StyleSheet, Platform } from 'react-native';
++import { StyleSheet, Platform } from 'react-native';
++import { SafeAreaView } from 'react-native-safe-area-context';
+ import { AnimatedModal } from './AnimatedModal';
+ import { Modal } from './Modal';
+ import { useTheme } from './CountryTheme';
+@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
+ export const CountryModal = ({ children, withModal, disableNativeModal, ...props }) => {
+     const { backgroundColor } = useTheme();
+     const { teleport } = React.useContext(CountryModalContext);
+-    const content = (React.createElement(SafeAreaView, { style: [styles.container, { backgroundColor }] }, children));
++    const content = (React.createElement(SafeAreaView, { style: [styles.container, { backgroundColor }], edges: ['top', 'left', 'right', 'bottom'] }, children));
+     React.useEffect(() => {
+         if (disableNativeModal) {
+             teleport(React.createElement(AnimatedModal, Object.assign({}, props), content));
